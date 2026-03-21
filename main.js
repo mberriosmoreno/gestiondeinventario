@@ -1,70 +1,53 @@
-const SCRIPT_URL = import.meta.env.VITE_SCRIPT_URL;
-const APP_TOKEN = import.meta.env.VITE_APP_TOKEN;
+const URL = import.meta.env.VITE_SCRIPT_URL;
+const TOKEN = import.meta.env.VITE_APP_TOKEN;
+let cache = [];
 
-let productosLocal = []; // Para filtrar sin volver a consultar a Google
-
-// 1. Cargar productos
-async function cargarInventario() {
-  const res = await fetch(SCRIPT_URL);
-  productosLocal = await res.json();
-  renderizar(productosLocal);
+async function fetchInv() {
+    const r = await fetch(URL);
+    cache = await r.json();
+    render(cache);
 }
 
-// 2. Dibujar tarjetas en pantalla
-function renderizar(lista) {
-  const grid = document.getElementById('grid-productos');
-  grid.innerHTML = lista.map(p => `
-    <div class="bg-white p-5 rounded-xl shadow-md border-t-4 ${p.stock < 5 ? 'border-red-500' : 'border-blue-500'}">
-      <div class="flex justify-between mb-2">
-        <span class="text-xs font-bold text-gray-400">${p.id}</span>
-        <span class="px-2 py-1 text-[10px] bg-gray-100 rounded text-gray-600 uppercase font-bold">${p.categoría}</span>
-      </div>
-      <h3 class="text-lg font-bold text-gray-800 mb-1">${p.producto}</h3>
-      <p class="text-2xl font-black text-blue-600 mb-4">$${p.precio}</p>
-      
-      <div class="flex items-center justify-between mt-4">
-        <span class="text-sm font-medium ${p.stock < 5 ? 'text-red-600 animate-pulse' : 'text-gray-500'}">
-          Stock: ${p.stock} unid.
-        </span>
-        <button onclick="registrarVenta('${p.id}')" 
-          class="bg-gray-800 text-white px-3 py-2 rounded-lg text-sm hover:bg-black transition active:scale-95">
-          Vender -1
-        </button>
-      </div>
-    </div>
-  `).join('');
+function render(data) {
+    const g = document.getElementById('grid-productos');
+    g.innerHTML = data.map(p => `
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-1">
+            <div class="flex justify-between items-start mb-6">
+                <span class="text-[10px] font-black text-slate-300 tracking-widest uppercase">${p.id}</span>
+                <span class="bg-blue-100 text-blue-700 text-[10px] px-3 py-1 rounded-full font-black uppercase">${p.categoria}</span>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">${p.producto}</h2>
+            <p class="text-3xl font-black text-blue-600 mb-8">$${p.precio}</p>
+            
+            <div class="pt-6 border-t border-slate-50">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold ${p.stock <= 3 ? 'text-red-500 animate-pulse' : 'text-slate-400'} uppercase tracking-tight">
+                        Stock: ${p.stock} unidades
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="enviarAccion('${p.id}', 'VENTA')" 
+                        class="bg-slate-900 text-white py-4 rounded-2xl text-xs font-black uppercase hover:bg-red-600 transition-all active:scale-95">Vender</button>
+                    <button onclick="enviarAccion('${p.id}', 'REPOSICION')" 
+                        class="bg-blue-600 text-white py-4 rounded-2xl text-xs font-black uppercase hover:bg-blue-700 transition-all active:scale-95">Surtir</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
 }
 
-// 3. Registrar Venta
-window.registrarVenta = async (id) => {
-  const confirmar = confirm(`¿Confirmar venta del producto ${id}?`);
-  if (!confirmar) return;
-
-  try {
-    await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify({
-        token: APP_TOKEN,
-        accion: "VENTA",
-        id: id
-      })
+window.enviarAccion = async (id, tipo) => {
+    await fetch(URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({ token: TOKEN, accion: tipo, id: id })
     });
-    alert("Venta enviada. Actualizando...");
-    setTimeout(cargarInventario, 1500); // Pausa para que Google procese
-  } catch (err) {
-    alert("Error de conexión");
-  }
+    setTimeout(fetchInv, 1200);
 };
 
-// 4. Buscador en tiempo real
 document.getElementById('buscador').addEventListener('input', (e) => {
-  const term = e.target.value.toLowerCase();
-  const filtrados = productosLocal.filter(p => 
-    p.producto.toLowerCase().includes(term) || p.id.toLowerCase().includes(term)
-  );
-  renderizar(filtrados);
+    const val = e.target.value.toLowerCase();
+    render(cache.filter(p => p.producto.toLowerCase().includes(val) || p.id.toLowerCase().includes(val)));
 });
 
-// Iniciar
-cargarInventario();
+fetchInv();
