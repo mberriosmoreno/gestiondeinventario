@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventario Pro | Sheets</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario Inteligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-6">
-  <div class="max-w-4xl mx-auto">
-    <header class="flex justify-between items-center mb-8">
-      <h1 class="text-2xl font-bold text-gray-800">Gestión de Inventario</h1>
-      <input type="text" id="buscador" placeholder="Buscar producto..." class="p-2 border rounded-lg w-64 shadow-sm">
-    </header>
+<body class="bg-slate-50 p-4 md:p-10 text-slate-900">
+    <div class="max-w-6xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <div>
+                <h1 class="text-4xl font-black italic text-slate-900 uppercase">StockMaster</h1>
+                <p class="text-slate-500 font-medium">Control de Inventario en Tiempo Real</p>
+            </div>
+            <input type="text" id="buscador" placeholder="Buscar por nombre o ID..." 
+                class="w-full md:w-80 p-4 rounded-2xl border-none shadow-xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 transition-all outline-none">
+        </header>
 
-    <div id="grid-productos" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      </div>
-  </div>
-
-  <script type="module" src="/main.js"></script>
+        <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+    </div>
+    <script type="module" src="/main.js"></script>
 </body>
 </html>
