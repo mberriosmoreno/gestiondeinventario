@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario Inteligente</title>
+    <title>StockMaster Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 p-4 md:p-10 text-slate-900">
+<body class="bg-slate-50 p-6 md:p-12 text-slate-900">
     <div class="max-w-6xl mx-auto">
-        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
             <div>
-                <h1 class="text-4xl font-black italic text-slate-900 uppercase">StockMaster</h1>
-                <p class="text-slate-500 font-medium">Control de Inventario en Tiempo Real</p>
+                <h1 class="text-4xl font-black text-slate-900 tracking-tighter">STOCK MASTER</h1>
+                <p class="text-slate-500 font-medium">Control de Inventario Inteligente</p>
             </div>
-            <input type="text" id="buscador" placeholder="Buscar por nombre o ID..." 
-                class="w-full md:w-80 p-4 rounded-2xl border-none shadow-xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 transition-all outline-none">
+            <input type="text" id="buscador" placeholder="Buscar producto..." 
+                class="w-full md:w-80 p-4 rounded-2xl border-none shadow-lg focus:ring-2 focus:ring-blue-500 outline-none">
         </header>
 
         <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
