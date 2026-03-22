@@ -11,32 +11,25 @@ async function fetchInv() {
 function render(data) {
     const g = document.getElementById('grid-productos');
     g.innerHTML = data.map(p => `
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-1">
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 transition-all hover:shadow-xl">
             <div class="flex justify-between items-start mb-6">
-                <span class="text-[10px] font-black text-slate-300 tracking-widest uppercase">${p.id}</span>
-                <span class="bg-blue-100 text-blue-700 text-[10px] px-3 py-1 rounded-full font-black uppercase">${p.categoria}</span>
+                <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">${p.id}</span>
+                <span class="bg-blue-100 text-blue-700 text-[10px] px-3 py-1 rounded-full font-bold">${p.categoria}</span>
             </div>
             <h2 class="text-2xl font-bold text-slate-800 mb-2">${p.producto}</h2>
             <p class="text-3xl font-black text-blue-600 mb-8">$${p.precio}</p>
-            
             <div class="pt-6 border-t border-slate-50">
-                <div class="flex justify-between items-center mb-6">
-                    <span class="text-sm font-bold ${p.stock <= 3 ? 'text-red-500 animate-pulse' : 'text-slate-400'} uppercase tracking-tight">
-                        Stock: ${p.stock} unidades
-                    </span>
-                </div>
+                <p class="text-sm font-bold mb-4 ${p.stock <= 3 ? 'text-red-500 animate-pulse' : 'text-slate-400'}">Stock: ${p.stock} unid.</p>
                 <div class="grid grid-cols-2 gap-3">
-                    <button onclick="enviarAccion('${p.id}', 'VENTA')" 
-                        class="bg-slate-900 text-white py-4 rounded-2xl text-xs font-black uppercase hover:bg-red-600 transition-all active:scale-95">Vender</button>
-                    <button onclick="enviarAccion('${p.id}', 'REPOSICION')" 
-                        class="bg-blue-600 text-white py-4 rounded-2xl text-xs font-black uppercase hover:bg-blue-700 transition-all active:scale-95">Surtir</button>
+                    <button onclick="accion('${p.id}', 'VENTA')" class="bg-slate-900 text-white py-3 rounded-xl text-xs font-bold hover:bg-red-600 transition">Vender</button>
+                    <button onclick="accion('${p.id}', 'REPOSICION')" class="bg-blue-600 text-white py-3 rounded-xl text-xs font-bold hover:bg-blue-700 transition">Surtir</button>
                 </div>
             </div>
         </div>
     `).join('');
 }
 
-window.enviarAccion = async (id, tipo) => {
+window.accion = async (id, tipo) => {
     await fetch(URL, {
         method: 'POST',
         mode: 'no-cors',
