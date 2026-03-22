@@ -14,7 +14,7 @@ function render(data) {
     g.innerHTML = data.map(p => `
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition">
             <div class="flex justify-between mb-4">
-                <span class="text-[10px] font-bold text-slate-300">${p.id}</span>
+                <span class="text-[10px] font-bold text-slate-300 tracking-widest">${p.id}</span>
                 <span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-1 rounded-full font-bold uppercase">${p.categoria}</span>
             </div>
             <h2 class="text-xl font-bold text-slate-800 mb-1">${p.producto}</h2>
@@ -22,25 +22,25 @@ function render(data) {
             <p class="text-xs font-bold mb-4 ${p.stock <= 3 ? 'text-red-500 animate-pulse' : 'text-slate-400'}">STOCK: ${p.stock}</p>
             
             <div class="grid grid-cols-2 gap-2 mb-2">
-                <button onclick="api('${p.id}', 'VENTA')" class="bg-slate-900 text-white py-2 rounded-lg text-xs font-bold">Venta -1</button>
-                <button onclick="api('${p.id}', 'REPOSICION')" class="bg-slate-100 text-slate-700 py-2 rounded-lg text-xs font-bold">Surtir +1</button>
+                <button onclick="api('${p.id}', 'VENTA')" class="bg-slate-900 text-white py-2 rounded-lg text-xs font-bold">Venta</button>
+                <button onclick="api('${p.id}', 'REPOSICION')" class="bg-slate-100 text-slate-700 py-2 rounded-lg text-xs font-bold">Surtir</button>
             </div>
             <div class="grid grid-cols-2 gap-2">
-                <button onclick="prepararEdicion('${p.id}')" class="border border-blue-200 text-blue-600 py-2 rounded-lg text-xs font-bold hover:bg-blue-50">Editar</button>
-                <button onclick="api('${p.id}', 'ELIMINAR')" class="text-red-400 py-2 rounded-lg text-xs font-bold hover:text-red-600">Eliminar</button>
+                <button onclick="prepararEdicion('${p.id}')" class="border border-blue-200 text-blue-600 py-2 rounded-lg text-xs font-bold">Editar</button>
+                <button onclick="api('${p.id}', 'ELIMINAR')" class="text-red-400 py-2 rounded-lg text-xs font-bold">Eliminar</button>
             </div>
         </div>
     `).join('');
 }
 
 window.api = async (id, accion, extra = {}) => {
-    if(accion === 'ELIMINAR' && !confirm('¿Eliminar este producto?')) return;
+    if(accion === 'ELIMINAR' && !confirm('¿Eliminar producto?')) return;
     await fetch(URL, {
         method: 'POST',
         mode: 'no-cors',
         body: JSON.stringify({ token: TOKEN, accion, id, ...extra })
     });
-    setTimeout(fetchInv, 1000);
+    setTimeout(fetchInv, 1200);
 };
 
 window.prepararEdicion = (id) => {
@@ -71,10 +71,5 @@ window.limpiarForm = () => {
     document.getElementById('f-id').disabled = false;
     editando = false;
 };
-
-document.getElementById('buscador').addEventListener('input', (e) => {
-    const v = e.target.value.toLowerCase();
-    render(cache.filter(p => p.producto.toLowerCase().includes(v) || p.id.toLowerCase().includes(v)));
-});
 
 fetchInv();
