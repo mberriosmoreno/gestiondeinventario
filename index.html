@@ -3,29 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StockMaster Ultra</title>
+    <title>StockMaster Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 p-4 md:p-10 text-slate-900">
+<body class="bg-slate-100 p-4 md:p-10 text-slate-900">
     <div class="max-w-6xl mx-auto">
-        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <h1 class="text-3xl font-black italic uppercase tracking-tighter">StockMaster Pro</h1>
-            <input type="text" id="buscador" placeholder="Buscar..." class="w-full md:w-64 p-3 rounded-xl shadow-sm outline-none focus:ring-2 focus:ring-blue-500">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-black uppercase italic tracking-tighter">StockMaster</h1>
+            <input type="text" id="buscador" placeholder="Buscar..." class="p-3 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
         </header>
 
-        <div class="bg-white p-6 rounded-3xl shadow-sm border mb-10">
-            <h2 id="form-title" class="text-sm font-bold mb-4 text-slate-400 uppercase">Gestión de Productos</h2>
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 mb-8">
+            <h2 class="text-xs font-bold text-slate-400 mb-4 uppercase">Gestión de Productos</h2>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
-                <input type="text" id="f-id" placeholder="ID" class="p-3 bg-slate-50 rounded-xl outline-none border">
-                <input type="text" id="f-nom" placeholder="Producto" class="p-3 bg-slate-50 rounded-xl outline-none border">
-                <input type="text" id="f-cat" placeholder="Categoría" class="p-3 bg-slate-50 rounded-xl outline-none border">
-                <input type="number" id="f-stk" placeholder="Stock" class="p-3 bg-slate-50 rounded-xl outline-none border">
-                <input type="number" id="f-pre" placeholder="Precio" class="p-3 bg-slate-50 rounded-xl outline-none border">
+                <input type="text" id="f-id" placeholder="ID" class="p-3 bg-slate-50 rounded-xl border">
+                <input type="text" id="f-nom" placeholder="Producto" class="p-3 bg-slate-50 rounded-xl border">
+                <input type="text" id="f-cat" placeholder="Cat" class="p-3 bg-slate-50 rounded-xl border">
+                <input type="number" id="f-stk" placeholder="Stock" class="p-3 bg-slate-50 rounded-xl border">
+                <input type="number" id="f-pre" placeholder="Precio" class="p-3 bg-slate-50 rounded-xl border">
             </div>
-            <div class="flex gap-2 mt-4">
-                <button onclick="procesarForm()" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition">Guardar</button>
-                <button onclick="limpiarForm()" class="px-6 bg-slate-200 rounded-xl font-bold">Limpiar</button>
-            </div>
+            <button onclick="enviarForm()" class="w-full mt-4 bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition">Guardar Producto</button>
         </div>
 
         <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
